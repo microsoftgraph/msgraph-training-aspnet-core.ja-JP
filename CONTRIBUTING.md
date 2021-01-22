@@ -1,30 +1,30 @@
 ---
-ms.openlocfilehash: fbd3e506358aa4be60dfe3891b50085691f7443a
-ms.sourcegitcommit: 9d0d10a9e8e5a1d80382d89bc412df287bee03f3
+ms.openlocfilehash: bc39e84debe100762908cda81d2ba8685769aaee
+ms.sourcegitcommit: 3ee5ced77209775eb5e744f68c9235bad8ec2bf4
 ms.translationtype: MT
 ms.contentlocale: ja-JP
-ms.lasthandoff: 10/30/2020
-ms.locfileid: "48822412"
+ms.lasthandoff: 01/21/2021
+ms.locfileid: "49919544"
 ---
-# <a name="contributing-to-microsoft-graph-training-repositories"></a>Microsoft Graph トレーニングリポジトリへの投稿
+# <a name="contributing-to-microsoft-graph-training-repositories"></a>Microsoft Graph トレーニング リポジトリへの貢献
 
-このプロジェクトへの投稿にご協力いただき、ありがとうございます。 プル要求を送信する前に、次の点を考慮してください。
+このプロジェクトに貢献してありがとうございます。 プルリクエストを提出する前に、次の点を考慮してください。
 
 ## <a name="overview"></a>概要
 
-このリポジトリのコードは、次の3つの目的を果たします。
+このリポジトリ内のコードは、次の 3 つの目的に使用されます。
 
-- [チュートリアル](/tutorial)フォルダー内の Markdown ファイルは、「 [Microsoft Graph のチュートリアル](https://docs.microsoft.com/graph/tutorials)」ページにチュートリアルとして公開されています。
-- [Demo](/demo)フォルダーのサンプルプロジェクトは、 [Microsoft Graph クイックスタート](https://developer.microsoft.com/graph/quick-start)のソースです。 * *\** _
-- Demo フォルダーのサンプルプロジェクトも GitHub から直接ダウンロードすることができ、単純な構成を行った後はそのまま実行する必要があります。
+- チュートリアル フォルダー内の Markdown [ファイルは](/tutorial) 、Microsoft Graph のチュートリアル ページでチュートリアル [として公開](https://docs.microsoft.com/graph/tutorials) されます。
+- デモ フォルダー内のサンプル [プロジェクト](/demo) は [、Microsoft Graph](https://developer.microsoft.com/graph/quick-start)クイック スタートのソースです。* *\** _
+- デモ フォルダー内のサンプル プロジェクトも GitHub から直接ダウンロード可能であり、簡単な構成を行った後は、この時点で実行する必要があります。
 
-> _*\**_ すべてのトレーニングリポジトリがクイックスタート (まだ) で利用できるわけではありません。
+> _*\**_ すべてのトレーニング リポジトリをクイック スタートとして利用できる (まだ) ではありません。
 
-この点に注意してください。1つの場所での変更 _may 変更が必要な場合は、別の場所で変更が必要になるため、同期を保つことが重要です。可能であれば、Markdown ファイルは、ソースコードファイルを (カスタム構文を使用して) 直接参照するので `:::code` 、ソース内のコードを更新すると Markdown のコードが自動的に更新されるようになります。
+これは、ある場所での変更が同期を維持するために、_may* を別の場所で変更する必要がある場合に、念頭に置いておく必要があります。可能であれば、Markdown ファイルは (カスタム構文を使用して) ソース コード ファイルを直接参照し、ソース内のコードを更新すると Markdown のコードが自動的に `:::code` 更新されます。
 
 ## <a name="updating-code"></a>コードの更新
 
-`:::code`Markdown で使用される構文は、ソースコードファイル内の特定のコメントに依存します。 コメントは次のようになります。
+`:::code`Markdown で使用される構文は、ソース コード ファイル内の特定のコメントによって異なります。 これらのコメントは次のようになります。
 
 ```csharp
 // <MySnippet>
@@ -32,19 +32,19 @@ Console.WriteLine("Hello World!");
 // </MySnippet>
 ```
 
-これらの "マーカー" コメントの間でコードを更新すると、Markdown ファイルは、Microsoft Graph ドキュメントサイトに公開されたときに、自動的に変更を取得します。 これらのコメントの外部にあるコードを更新する場合は、対応する Markdown を更新する必要があります。
+これらの "マーカー" コメントの間でコードを更新すると、Markdown ファイルは、Microsoft Graph ドキュメント サイトに公開された場合にそれらの変更を自動的に取得します。 これらのコメント以外のコードを更新する場合は、対応する Markdown を更新する必要がある可能性が高い可能性があります。
 
 ## <a name="adding-features"></a>機能の追加
 
-Enthusiasm は歓迎しますが、プル要求を送信して新しい機能をサンプルに追加しないでください。 このリポジトリは、主に "最初のアプリをビルドする" チュートリアルであるため、機能セットは設計によって制限されています。
+評価は高く評価される一方で、サンプルに新機能を追加するプル要求は送信しないでおください。 このリポジトリは主に「最初のアプリをビルドする」チュートリアルなので、機能セットは設計上制限されています。
 
-## <a name="submitting-pull-requests"></a>プル要求の送信
+## <a name="submitting-pull-requests"></a>プル要求を送信する
 
-すべてのプル要求をブランチに送信してください `master` 。
+すべてのプル要求をブランチに送信 `main` してください。
 
-## <a name="when-do-changes-get-published"></a>変更が公開されるのはいつですか。
+## <a name="when-do-changes-get-published"></a>変更が公開されるのは、いつですか?
 
-[Microsoft Graph チュートリアル](https://docs.microsoft.com/graph/tutorials)サイトへの更新プログラムの公開は、自動的には行われません。 変更は、最初にブランチに昇格する必要があり `live` ます。その後、サイト管理者がビルドを開始する必要があります。 これは、通常、「必要に応じて」に基づいて行われます。
+Microsoft Graph チュートリアル サイトへの [更新プログラムの発行](https://docs.microsoft.com/graph/tutorials) は自動ではありません。 最初に変更をブランチに昇格し、次にサイト管理者によってビルドをトリガー `live` する必要があります。 これは通常、"必要に応じて" 行われます。
 
 ## <a name="code-of-conduct"></a>Code of conduct
 
