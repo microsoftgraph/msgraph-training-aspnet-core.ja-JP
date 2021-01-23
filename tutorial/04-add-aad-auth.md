@@ -1,23 +1,23 @@
 ---
-ms.openlocfilehash: 6e6c476b4ff0901f50d8e35a17f584d73b48b533
-ms.sourcegitcommit: 9d0d10a9e8e5a1d80382d89bc412df287bee03f3
+ms.openlocfilehash: a024fb533c552563da6c9179301e16a2e1d09d5f
+ms.sourcegitcommit: 6341ad07cd5b03269e7fd20cd3212e48baee7c07
 ms.translationtype: MT
 ms.contentlocale: ja-JP
-ms.lasthandoff: 10/30/2020
-ms.locfileid: "48822473"
+ms.lasthandoff: 01/23/2021
+ms.locfileid: "49942163"
 ---
 <!-- markdownlint-disable MD002 MD041 -->
 
-この演習では、Azure AD での認証をサポートするために、前の手順で作成したアプリケーションを拡張します。 これは、Microsoft Graph API を呼び出すのに必要な OAuth アクセス トークンを取得するために必要です。 この手順では、 [Microsoft Identity. Web](https://www.nuget.org/packages/Microsoft.Identity.Web/) ライブラリを構成します。
+この演習では、前の演習のアプリケーションを拡張して、Azure AD での認証をサポートします。 これは、Microsoft Graph API を呼び出すのに必要な OAuth アクセス トークンを取得するために必要です。 この手順では [、Microsoft.Identity.Web ライブラリを構成](https://www.nuget.org/packages/Microsoft.Identity.Web/) します。
 
 > [!IMPORTANT]
-> アプリケーション ID とシークレットをソースに格納しないようにするには、 [.Net シークレットマネージャー](/aspnet/core/security/app-secrets) を使用してこれらの値を格納します。 シークレットマネージャーは開発のみを目的としており、運用アプリでは、信頼されたシークレットマネージャーを使用して機密情報を格納する必要があります。
+> アプリケーション ID とシークレットをソースに格納しないようにするには、.NET [Secret Manager](/aspnet/core/security/app-secrets) を使用してこれらの値を格納します。 シークレット マネージャーは開発のみを目的とします。実稼働アプリでは、シークレットの保存に信頼できるシークレット マネージャーを使用する必要があります。
 
-1. **/appsettings.jsを** 開き、その内容を次のように置き換えます。
+1. **./appsettings.jsを開き**、その内容を次の内容に置き換えてください。
 
     :::code language="json" source="../demo/GraphTutorial/appsettings.json" highlight="2-6":::
 
-1. **Graphtutorial .csproj** が配置されているディレクトリで CLI を開き、次のコマンドを実行します。これには、 `YOUR_APP_ID` Azure PORTAL からアプリケーション ID を使用し、アプリケーションシークレットを使用し `YOUR_APP_SECRET` ます。
+1. **GraphTu clil.csproj** があるディレクトリで CLI を開き、Azure portal のアプリケーション ID とアプリケーション シークレットに置き換え、次のコマンドを実行します。 `YOUR_APP_ID` `YOUR_APP_SECRET`
 
     ```Shell
     dotnet user-secrets init
@@ -27,13 +27,13 @@ ms.locfileid: "48822473"
 
 ## <a name="implement-sign-in"></a>サインインの実装
 
-最初に、Microsoft Identity platform サービスをアプリケーションに追加します。
+まず、Microsoft Identity プラットフォーム サービスをアプリケーションに追加します。
 
-1. **GraphConstants.cs** という名前の新しいファイルを作成し、次のコードを追加し **ます。**
+1. **./Graph** ディレクトリに **GraphConstants.cs** という名前の新しいファイルを作成し、次のコードを追加します。
 
     :::code language="csharp" source="../demo/GraphTutorial/Graph/GraphConstants.cs" id="GraphConstantsSnippet":::
 
-1. **./Startup.cs** ファイルを開き、次の `using` ステートメントをファイルの先頭に追加します。
+1. **./Startup.cs** ファイルを開き、ファイルの一番上に次 `using` のステートメントを追加します。
 
     ```csharp
     using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -79,13 +79,13 @@ ms.locfileid: "48822473"
     }
     ```
 
-1. 関数で `Configure` 、行の上に次の行を追加し `app.UseAuthorization();` ます。
+1. 関数で `Configure` 、行の上に次の行を追加 `app.UseAuthorization();` します。
 
     ```csharp
     app.UseAuthentication();
     ```
 
-1. **/Controllers/HomeController.cs** を開き、その内容を次のように置き換えます。
+1. **./Controllers/HomeController.cs を** 開き、その内容を次の内容に置き換えてください。
 
     ```csharp
     using GraphTutorial.Models;
@@ -150,47 +150,47 @@ ms.locfileid: "48822473"
     }
     ```
 
-1. 変更を保存してプロジェクトを開始します。 Microsoft アカウントを使用してログインします。
+1. 変更を保存してプロジェクトを開始します。 Microsoft アカウントでログインします。
 
-1. 同意プロンプトを調べます。 アクセス許可の一覧は、/Graph/GraphConstants.cs で構成されているアクセス許可スコープの一覧に対応します **。**
+1. 同意プロンプトを確認します。 アクセス許可の一覧は **、./Graph/GraphConstants.cs** で構成されたアクセス許可スコープの一覧に対応しています。
 
-    - **アクセス権が付与されているデータへのアクセスを保持する:** ( `offline_access` ) 更新トークンを取得するために、このアクセス許可は msal によって要求されます。
-    - **サインインしてプロファイルを読み取る:** ( `User.Read` ) このアクセス許可により、アプリはログインしているユーザーのプロファイルとプロファイル写真を取得できます。
-    - **メールボックスの設定の読み取り:** ( `MailboxSettings.Read` ) このアクセス許可により、アプリは、タイムゾーンや時刻の形式など、ユーザーのメールボックス設定を読み取ることができます。
-    - **予定表へのフルアクセス:** ( `Calendars.ReadWrite` ) この権限によって、アプリはユーザーの予定表にあるイベントの読み取り、新しいイベントの追加、および既存のイベントの変更を行うことができます。
+    - **アクセス権を付与** したデータへのアクセスを維持する: ( ) このアクセス許可は、更新トークンを取得するために `offline_access` MSAL によって要求されます。
+    - **サインインしてプロファイルを** 読み取る: ( ) このアクセス許可により、アプリはログインしているユーザーのプロファイルとプロファイル写真 `User.Read` を取得できます。
+    - **メールボックスの設定を読み取る:** ( ) このアクセス許可により、アプリはタイム ゾーンや時刻形式を含むユーザーのメールボックス設定 `MailboxSettings.Read` を読み取りできます。
+    - **予定表へのフル** アクセス権: ( ) このアクセス許可により、アプリはユーザーの予定表のイベントの読み取り、新しいイベントの追加、既存のイベントの変更を `Calendars.ReadWrite` 行います。
 
-    ![Microsoft identity platform 同意プロンプトのスクリーンショット](./images/add-aad-auth-03.png)
+    ![Microsoft ID プラットフォームの同意プロンプトのスクリーンショット](./images/add-aad-auth-03.png)
 
-    同意に関する詳細については、「 [AZURE AD アプリケーションの同意エクスペリエンス](/azure/active-directory/develop/application-consent-experience)について」を参照してください。
+    同意の詳細については、「Azure アプリケーションの同意エクスペリエンスについて [AD参照してください](/azure/active-directory/develop/application-consent-experience)。
 
-1. 要求されたアクセス許可への同意。 ブラウザーがアプリにリダイレクトし、トークンが表示されます。
+1. 要求されたアクセス許可に同意します。 ブラウザーがアプリにリダイレクトし、トークンが表示されます。
 
 ### <a name="get-user-details"></a>ユーザーの詳細情報を取得する
 
 ユーザーがログインすると、Microsoft Graph からそのユーザーの情報を入手できます。
 
-1. /Graph/GraphClaimsPrincipalExtensions.cs を開き、内容全体を次のように置き換えます **。**
+1. **./Graph/GraphClaimsPrincipalExtensions.cs** を開き、その内容全体を次の内容に置き換えてください。
 
     :::code language="csharp" source="../demo/GraphTutorial/Graph/GraphClaimsPrincipalExtensions.cs" id="GraphClaimsExtensionsSnippet":::
 
-1. **Startup.cs** を開き、既存の行を `.AddMicrosoftIdentityWebApp(Configuration)` 次のコードに置き換えます。
+1. **./Startup.cs** 開き、既存の行を次 `.AddMicrosoftIdentityWebApp(Configuration)` のコードに置き換えます。
 
     :::code language="csharp" source="../demo/GraphTutorial/Startup.cs" id="AddSignInSnippet":::
 
-    このコードの内容を検討してください。
+    このコードの動作を検討します。
 
-    - イベントのイベントハンドラーを追加し `OnTokenValidated` ます。
-        - インターフェイスを使用して `ITokenAcquisition` アクセストークンを取得します。
+    - イベントのイベント ハンドラーを追加 `OnTokenValidated` します。
+        - インターフェイスを `ITokenAcquisition` 使用してアクセス トークンを取得します。
         - Microsoft Graph を呼び出して、ユーザーのプロファイルと写真を取得します。
-        - ユーザーの id にグラフ情報を追加します。
+        - Graph 情報をユーザーの ID に追加します。
 
-1. 呼び出しの後、呼び出しの前に、次の関数呼び出しを追加し `EnableTokenAcquisitionToCallDownstreamApi` `AddInMemoryTokenCaches` ます。
+1. 呼び出しの後と呼び出しの `EnableTokenAcquisitionToCallDownstreamApi` 前に、次の関数呼び出しを追加 `AddInMemoryTokenCaches` します。
 
     :::code language="csharp" source="../demo/GraphTutorial/Startup.cs" id="AddGraphClientSnippet":::
 
-    これにより、認証された **Graphserviceclient** 備えた、コントローラーが依存関係の挿入を介して使用できるようになります。
+    これにより、依存関係挿入によって、 **認証された GraphServiceClient** をコントローラーで使用できます。
 
-1. **/Controllers/HomeController.cs** を開き、関数を `Index` 次のように置き換えます。
+1. **./Controllers/HomeController.cs を** 開き、関数を `Index` 次の関数に置き換える。
 
     ```csharp
     public IActionResult Index()
@@ -201,24 +201,27 @@ ms.locfileid: "48822473"
 
 1. `ITokenAcquisition` **HomeController** クラス内のすべての参照を削除します。
 
-1. 変更を保存し、アプリを開始して、サインインプロセスを実行します。 ホームページに戻る必要がありますが、UI は、サインインしていることを示すように変更する必要があります。
+1. 変更内容を保存し、アプリを起動して、サインイン プロセスを実行します。 ホーム ページに戻る必要がありますが、サインイン中を示すために UI が変更される必要があります。
 
     ![サインイン後のホーム ページのスクリーンショット](./images/add-aad-auth-01.png)
 
-1. 右上隅にあるユーザーアバターをクリックして、[ **サインアウト** ] リンクにアクセスします。 **[サインアウト]** をクリックすると、セッションがリセットされ、ホーム ページに戻ります。
+1. 右上隅にあるユーザー アバターをクリックして、[サインアウト **] リンクにアクセス** します。 **[サインアウト]** をクリックすると、セッションがリセットされ、ホーム ページに戻ります。
 
     ![[サインアウト] リンクのドロップダウン メニューのスクリーンショット](./images/add-aad-auth-02.png)
 
-## <a name="storing-and-refreshing-tokens"></a>トークンの格納と更新
+> [!TIP]
+> ホーム ページにユーザー名が表示されない場合に、これらの変更を行った後に[アバターの使用] ドロップダウンに名前とメールが表示されない場合は、サインアウトしてサインインし戻します。
 
-この時点で、アプリケーションには、API 呼び出しのヘッダーで送信されるアクセストークンがあり `Authorization` ます。 これは、アプリが Microsoft Graph にユーザーの代わりにアクセスできるようにするトークンです。
+## <a name="storing-and-refreshing-tokens"></a>トークンの保存と更新
 
-ただし、このトークンは一時的なものです。 トークンが発行された後、有効期限が切れる時間になります。 ここで、更新トークンが役に立ちます。 更新トークンを使用すると、ユーザーが再度サインインしなくても、アプリは新しいアクセス トークンを要求できます。
+この時点で、アプリケーションはアクセス トークンを持ち、API 呼び出しのヘッダー `Authorization` で送信されます。 これは、アプリが Microsoft Graph にユーザーの代わりにアクセスできるようにするトークンです。
 
-アプリは、Microsoft Identity Web ライブラリを使用しているため、トークンストレージを実装したり、ロジックを更新したりする必要はありません。
+ただし、このトークンは一時的なものです。 トークンは発行後 1 時間で期限切れになります。 ここで、更新トークンが役に立ちます。 更新トークンを使用すると、ユーザーが再度サインインしなくても、アプリは新しいアクセス トークンを要求できます。
 
-アプリでは、アプリの再起動時にトークンを保持する必要がないアプリに十分なメモリ内トークンキャッシュを使用します。 代わりに、運用アプリは、Microsoft Identity. Web ライブラリの [分散キャッシュオプション](https://github.com/AzureAD/microsoft-identity-web/wiki/token-cache-serialization) を使用する場合があります。
+アプリは Microsoft.Identity.Web ライブラリを使用しているので、トークンストレージまたは更新ロジックを実装する必要は一切ない。
 
-この `GetAccessTokenForUserAsync` メソッドは、トークンの有効期限を処理し、更新します。 最初に、キャッシュされたトークンをチェックし、有効期限が切れていない場合はそれを返します。 有効期限が切れている場合は、キャッシュされた更新トークンを使用して新しいものを取得します。
+アプリはメモリ内トークン キャッシュを使用しますが、アプリの再起動時にトークンを保持する必要がないアプリでは十分です。 実稼働アプリでは、代わりに[](https://github.com/AzureAD/microsoft-identity-web/wiki/token-cache-serialization)Microsoft.Identity.Web ライブラリの分散キャッシュ オプションを使用できます。
 
-コントローラーが依存関係の挿入によって取得する **Graphserviceclient** ユーザーは、ユーザーが使用する認証プロバイダーで事前に構成され `GetAccessTokenForUserAsync` ます。
+この `GetAccessTokenForUserAsync` メソッドは、トークンの有効期限と更新を処理します。 最初にキャッシュされたトークンをチェックし、有効期限が切れていない場合はトークンを返します。 有効期限が切れている場合は、キャッシュされた更新トークンを使用して新しい更新トークンを取得します。
+
+コントローラー **が依存関係挿入** を介して取得する GraphServiceClient は、自動的に使用する認証プロバイダーで事前 `GetAccessTokenForUserAsync` に構成されます。
