@@ -1,30 +1,30 @@
 ---
-ms.openlocfilehash: ed1bb3d97791ecfdd3b63a1bb4a1dfd63f2f03bf
-ms.sourcegitcommit: 9d0d10a9e8e5a1d80382d89bc412df287bee03f3
+ms.openlocfilehash: 73ba9c271c9c6675ffbb22ce4f800ffb652c715d
+ms.sourcegitcommit: 6341ad07cd5b03269e7fd20cd3212e48baee7c07
 ms.translationtype: MT
 ms.contentlocale: ja-JP
-ms.lasthandoff: 10/30/2020
-ms.locfileid: "48822510"
+ms.lasthandoff: 01/23/2021
+ms.locfileid: "49942135"
 ---
 <!-- markdownlint-disable MD002 MD041 -->
 
-このチュートリアルでは、Microsoft Graph API を使用してユーザーの予定表情報を取得する ASP.NET コア web アプリを構築する方法について説明します。
+このチュートリアルでは、Microsoft Graph API を使用してユーザーの予定表情報ASP.NETコア Web アプリを構築する方法について説明します。
 
 > [!TIP]
-> 完成したチュートリアルをダウンロードするだけで済む場合は、 [GitHub リポジトリ](https://github.com/microsoftgraph/msgraph-training-aspnet-core)をダウンロードするか、クローンを作成できます。 アプリ ID と secret を使用してアプリを構成する方法については、 **demo** フォルダーの README ファイルを参照してください。
+> 完成したチュートリアルをダウンロードする場合は [、GitHub](https://github.com/microsoftgraph/msgraph-training-aspnet-core)リポジトリをダウンロードまたは複製できます。 アプリ ID とシークレットを使ってアプリを構成する手順については、デモ フォルダーの README ファイルを参照してください。
 
 ## <a name="prerequisites"></a>前提条件
 
-このチュートリアルを開始する前に、開発用のコンピューターに [.Net CORE SDK](https://dotnet.microsoft.com/download) をインストールしておく必要があります。 SDK を持っていない場合は、「ダウンロードオプション」の前のリンクを参照してください。
+このチュートリアルを開始する前に、開発用コンピューターに [.NET Core SDK](https://dotnet.microsoft.com/download) がインストールされている必要があります。 SDK がない場合は、ダウンロード オプションの前のリンクを参照してください。
 
-また、Outlook.com 上のメールボックスを持つ個人の Microsoft アカウント、または Microsoft 職場または学校のアカウントを所有している必要があります。 Microsoft アカウントを持っていない場合は、無料のアカウントを取得するためのオプションがいくつかあります。
+また、メールボックスを持つ個人用の Microsoft アカウントが Outlook.com Microsoft の仕事用アカウントまたは学校アカウントである必要があります。 Microsoft アカウントをお持ちない場合は、無料アカウントを取得するためのオプションが 2 つ提供されています。
 
-- [新しい個人用 Microsoft アカウントにサインアップ](https://signup.live.com/signup?wa=wsignin1.0&rpsnv=12&ct=1454618383&rver=6.4.6456.0&wp=MBI_SSL_SHARED&wreply=https://mail.live.com/default.aspx&id=64855&cbcxt=mai&bk=1454618383&uiflavor=web&uaid=b213a65b4fdc484382b6622b3ecaa547&mkt=E-US&lc=1033&lic=1)することができます。
-- [Office 365 開発者プログラムにサインアップ](https://developer.microsoft.com/office/dev-program)して、無料の office 365 サブスクリプションを取得することができます。
+- 新しい [個人用 Microsoft アカウントにサインアップできます](https://signup.live.com/signup?wa=wsignin1.0&rpsnv=12&ct=1454618383&rver=6.4.6456.0&wp=MBI_SSL_SHARED&wreply=https://mail.live.com/default.aspx&id=64855&cbcxt=mai&bk=1454618383&uiflavor=web&uaid=b213a65b4fdc484382b6622b3ecaa547&mkt=E-US&lc=1033&lic=1)。
+- Office [365 開発者プログラムにサインアップして、365](https://developer.microsoft.com/office/dev-program) サブスクリプションを無料Office取得できます。
 
 > [!NOTE]
-> このチュートリアルは、.NET Core SDK version 3.1.201 を使用して作成されています。 このガイドの手順は、他のバージョンでは動作しますが、テストされていません。
+> このチュートリアルは、.NET Core SDK バージョン 5.0.102 で記述されています。 このガイドの手順は他のバージョンでも動作する可能性がありますが、テストは行ってはいではありません。
 
 ## <a name="feedback"></a>フィードバック
 
-このチュートリアルに関するフィードバックは、 [GitHub リポジトリ](https://github.com/microsoftgraph/msgraph-training-aspnet-core)に記入してください。
+このチュートリアルに関するフィードバックは [、GitHub リポジトリで提供してください](https://github.com/microsoftgraph/msgraph-training-aspnet-core)。
